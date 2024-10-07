@@ -11,15 +11,9 @@ Para melhorar ainda mais a segurança, você pode baixar o código e usá-lo **l
 
 ## Funcionalidades
 
-- Geração de senhas com comprimento entre 8 e 64 caracteres.
+- Geração de senhas com comprimento entre 8 e 32 caracteres.
 - Opção de incluir ou não caracteres especiais.
-- **Modo Paranoico** para gerar senhas com 64 caracteres automaticamente.
-- **Verificação da força da senha** com medidor visual.
-- Suporte a múltiplas senhas geradas ao mesmo tempo.
-- Opção de exportar as senhas geradas para um arquivo `.txt`.
 - **Modo Escuro** para facilitar o uso em ambientes com pouca luz.
-- **Gerador de QR Code** para fácil compartilhamento de senhas.
-- Opção de compartilhar senhas com **LastPass**.
 
 ## Como Usar Localmente
 
