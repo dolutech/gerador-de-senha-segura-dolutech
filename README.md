@@ -35,4 +35,4 @@ Para melhorar ainda mais a segurança, você pode baixar o código e usá-lo **l
    Clone o repositório com Git ou baixe o arquivo `.zip` e extraia em seu computador:
 
    ```bash
-   git clone https://github.com/seuusuario/gerador-de-senhas-seguras.git](https://github.com/dolutech/gerador-de-senha-segura-dolutech
+   git clone https://github.com/dolutech/gerador-de-senha-segura-dolutech
