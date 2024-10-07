@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NLGWKWG7YG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NLGWKWG7YG');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Senhas Seguras - Cibersegurança</title>
+    <meta name="description" content="Gerador de senhas Seguras, de forma fácil e rápida desenvolvido por Lucas Catão de Moraes. Crie senhas fortes e seguras em segundos. Proteja suas informações com combinações complexas e únicas.">
+    <meta name="keywords" content="gerador de senhas, gerador de palavras-passe, senha forte, senhas seguras, senha segura, Lucas Catão de Moraes, Gerador de senhas Seguras, cibersegurança, segurança digital, gerenciamento de senhas">
+    <link rel="icon" href="https://geradordesenhasegura.com.br/password.png" type="image/png">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Inclusão da Biblioteca QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #lengthValue {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .info-text {
+            font-size: 0.95em;
+            margin-top: 20px;
+        }
+        /* Estilos para o banner de cookies */
+        .cookie-consent-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #f4f4f4;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            z-index: 1000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .cookie-consent-container .cookie-text {
+            margin: 10px 0;
+        }
+        
+        .cookie-consent-container .cookie-buttons {
+            margin: 10px 0;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        /* Estilo para o botão de download da extensão */
+        .btn-extension {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .btn-extension:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+        /* Estilos para o botão de alternância */
+        .toggle-btn {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            border-radius: 15px;
+            background-color: #ddd;
+            cursor: pointer;
+            margin-left: 10px;
+            display: inline-block;
+            vertical-align: middle;
+            transition: background-color 0.3s;
+        }
+        .toggle-btn:before {
+            content: 'Off';
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            color: #fff;
+            transition: 0.3s;
+            font-size: 0.8em;
+        }
+        .toggle-btn.active {
+            background-color: #007bff;
+        }
+        .toggle-btn.active:before {
+            content: 'On';
+            left: 35px;
+        }
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #fff;
+            transition: 0.3s;
+        }
+        .toggle-btn.active .toggle-circle {
+            left: 33px;
+        }
+        /* Estilos para o indicador de força da senha */
+        .strength-meter {
+            height: 10px;
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+        .strength-meter-fill {
+            height: 100%;
+            width: 0%;
+            background-color: red;
+            transition: width 0.5s, background-color 0.5s;
+        }
+        /* Estilo para múltiplas senhas */
+        #multiplePasswordsContainer {
+            margin-top: 20px;
+        }
+        #multiplePasswordsContainer textarea {
+            width: 100%;
+            height: 100px;
+            resize: none;
+        }
+        /* Estilo para exportação de senhas */
+        .export-btn {
+            margin-top: 10px;
+        }
+        /* Estilo para botão LastPass */
+        .lastpass-btn {
+            background-color: #feda00;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+        .lastpass-btn img {
+            height: 20px;
+            margin-right: 10px;
+        }
+        .lastpass-btn:hover {
+            background-color: #e5c300;
+            color: #000;
+        }
+        /* Estilos para seções avançadas */
+        .advanced-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .toggle-advanced-btn {
+            margin-top: 20px;
+        }
+        /* Estilos para a seção de QR Code */
+        #qrcodeContainer {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #qrcode {
+            margin: 0 auto;
+        }
+        #downloadQRCodeBtn {
+            margin-top: 10px;
+        }
+        /* Estilo para mensagem de sucesso ao copiar */
+        #copySuccessMessage {
+            display: none;
+        }
+
+        /* Estilos para o Modo Escuro Melhorados */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode .card {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+        }
+        body.dark-mode footer {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .cookie-consent-container {
+            background-color: #1e1e1e;
+            color: #e0e0e0;
+        }
+        body.dark-mode .btn-primary {
+            background-color: #3a3f51;
+            border-color: #3a3f51;
+        }
+        body.dark-mode .btn-secondary {
+            background-color: #5c677d;
+            border-color: #5c677d;
+        }
+        body.dark-mode .btn-info {
+            background-color: #4a90e2;
+            border-color: #4a90e2;
+        }
+        body.dark-mode .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        body.dark-mode .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+        body.dark-mode .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+        body.dark-mode .strength-meter {
+            background-color: #333;
+        }
+        body.dark-mode .strength-meter-fill {
+            background-color: red;
+        }
+        body.dark-mode a {
+            color: #bb86fc;
+        }
+        /* Estilo para o botão de Modo Escuro */
+        .dark-mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 1001;
+        }
+        .dark-mode-toggle label {
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        /* Estilos para Histórico de Senhas (Modal) */
+        .modal-history .modal-content {
+            background-color: #fefefe;
+            color: #000;
+        }
+        body.dark-mode .modal-history .modal-content {
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .modal-history .modal-header {
+            border-bottom: 1px solid #ddd;
+        }
+        body.dark-mode .modal-history .modal-header {
+            border-bottom: 1px solid #444;
+        }
+        .modal-history .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .modal-history .list-group-item {
+            background-color: transparent;
+            border: none;
+            padding: 5px 0;
+            word-break: break-all;
+            cursor: pointer; /* Indica que é clicável */
+        }
+        body.dark-mode .modal-history .list-group-item {
+            border-bottom: 1px solid #444;
+        }
+        /* Estilo para mensagem de sucesso no Modal */
+        #copySuccessMessageModal {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Botão de Alternância do Modo Escuro -->
+<div class="dark-mode-toggle">
+    <div class="toggle-btn" id="darkModeToggle">
+        <div class="toggle-circle"></div>
+    </div>
+    <label for="darkModeToggle">Modo Escuro</label>
+</div>
+
+<!-- Início do Banner de Cookies -->
+<div id="cookieConsentContainer" class="cookie-consent-container">
+    <div class="cookie-text">
+        Este site não utiliza cookies nem captura de dados. <a href="https://www.geradordesenhasegura.com.br/politica-de-privacidade.html" target="_blank">Saiba mais</a>.
+    </div>
+    <div class="cookie-buttons">
+        <button id="acceptCookieConsent" class="btn btn-success">Aceitar</button>
+        <button id="declineCookieConsent" class="btn btn-danger">Recusar</button>
+    </div>
+</div>
+<!-- Fim do Banner de Cookies -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <img src="https://geradordesenhasegura.com.br/password.png" alt="Gerador de Senhas" width="200" height="200" class="mb-4">
+            <div class="card">
+                <div class="card-header text-center bg-primary text-white">
+                    Gerador de Senhas
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="length">Tamanho da senha:</label>
+                        <input type="range" id="length" class="form-control-range" value="12" min="8" max="32" oninput="updateLengthValue(this.value)">
+                        <span id="lengthValue">12</span> caracteres
+                    </div>
+                    <div class="form-group">
+                        <label for="specialChars" style="vertical-align: middle;">Incluir caracteres especiais:</label>
+                        <div id="specialCharsToggle" class="toggle-btn active" onclick="toggleSpecialChars()">
+                            <div class="toggle-circle"></div>
+                        </div>
+                        <p>* Recomendado usar caracteres especiais para maior segurança.</p>
+                    </div>
+                    
+                    <!-- Nova funcionalidade: Modo Paranoico -->
+                    <div class="form-group">
+                        <label for="paranoidMode" style="vertical-align: middle;">Modo Paranoico:</label>
+                        <div id="paranoidModeToggle" class="toggle-btn" onclick="toggleParanoidMode()">
+                            <div class="toggle-circle"></div>
+                        </div>
+                        <p>* Ao ativar, a senha será gerada com 64 caracteres.</p>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" onclick="generatePassword()">Gerar Senha</button>
+                    <input type="text" id="password" class="form-control mt-3" readonly>
+                    <button class="btn btn-secondary btn-block mt-2" onclick="copyToClipboard()">Copiar</button>
+                    <!-- Mensagem de sucesso ao copiar -->
+                    <div id="copySuccessMessage" class="text-success mt-2">Senha Copiada com sucesso!</div>
+                    
+                    <!-- Nova funcionalidade: Verificar força da senha -->
+                    <div class="mt-4">
+                        <h5>Verificar Força da Senha</h5>
+                        <input type="password" id="passwordStrengthInput" class="form-control" placeholder="Digite a senha para verificar">
+                        <div class="strength-meter">
+                            <div id="strengthMeterFill" class="strength-meter-fill"></div>
+                        </div>
+                        <p id="strengthText" class="mt-2">Força: </p>
+                    </div>
+                    
+                    <!-- Botões de Ação -->
+                    <div class="mt-4">
+                        <button class="btn btn-info" onclick="toggleAdvancedSections()">Mostrar Opções Avançadas</button>
+                        <button class="btn btn-outline-secondary ml-2" data-toggle="modal" data-target="#historyModal">Histórico</button>
+                    </div>
+                    
+                    <!-- Seções avançadas -->
+                    <div id="advancedSections" class="advanced-section">
+                        <!-- Nova funcionalidade: Sugestões de Senhas Baseadas em Regras -->
+                        <div class="mt-4">
+                            <h5>Sugestões de Senhas Baseadas em Regras</h5>
+                            <form id="rulesForm">
+                                <div class="form-group">
+                                    <label for="startUppercase">Começar com uma letra maiúscula:</label>
+                                    <input type="checkbox" id="startUppercase" class="ml-2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="includeNumber">Incluir um número em posições específicas:</label>
+                                    <input type="number" id="numberPosition" class="form-control" placeholder="Posição do número (ex: 3)" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="includeSymbol">Incluir um símbolo em posições específicas:</label>
+                                    <input type="number" id="symbolPosition" class="form-control" placeholder="Posição do símbolo (ex: 5)" min="1">
+                                </div>
+                                <button type="button" class="btn btn-info btn-block" onclick="generatePasswordWithRules()">Gerar com Regras</button>
+                            </form>
+                        </div>
+                        
+                        <!-- Nova funcionalidade: Gerar Múltiplas Senhas -->
+                        <div class="mt-4">
+                            <h5>Gerar Múltiplas Senhas</h5>
+                            <input type="number" id="numberOfPasswords" class="form-control" placeholder="Quantas senhas? (ex: 5)" min="1" max="100">
+                            <button class="btn btn-success btn-block mt-2" onclick="generateMultiplePasswords()">Gerar Múltiplas Senhas</button>
+                            <div id="multiplePasswordsContainer" class="mt-3" style="display: none;">
+                                <textarea readonly id="multiplePasswords" class="form-control"></textarea>
+                                <button class="btn btn-secondary btn-block export-btn" onclick="exportPasswords()">Exportar para .txt</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Nova funcionalidade: Gerar QR Code da Senha -->
+                        <div class="mt-4">
+                            <h5>Gerar QR Code da Senha</h5>
+                            <button class="btn btn-warning btn-block" onclick="generateQRCode()">Gerar QR Code</button>
+                            <div id="qrcodeContainer" style="display: none;">
+                                <div id="qrcode"></div>
+                                <button id="downloadQRCodeBtn" class="btn btn-secondary btn-block">Baixar QR Code</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Nova funcionalidade: Compartilhar com LastPass -->
+                    <a href="#" id="lastpassShareBtn" class="lastpass-btn" target="_blank">
+                        <img src="https://lastpass.com/images/logo-lastpass-2022.svg" alt="LastPass Logo">
+                        Compartilhar Senha com LastPass
+                    </a>
+                </div>
+            </div>
+            <a href="https://chromewebstore.google.com/detail/gerador-de-senhas-seguras/ilbkggphnlmebfpmjdfhjgmpagpfldaa" class="btn-extension" target="_blank">🔒 Baixe a Extensão e Gere Senhas com Facilidade! 🔒</a>
+            <a href="https://dolutech.com/ebook-gratuito-fortalecendo-a-seguranca-digital-atraves-do-gerenciamento-de-senhas/" class="btn-extension" target="_blank">📘 Baixe o eBook sobre Senhas Seguras 📘</a>
+        </div>
+    </div>
+    <!-- Início da nova caixa de texto -->
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="card">
+                    <div class="card-header text-center bg-primary text-white">
+                        Por que usar senhas seguras?
+                    </div>
+                    <div class="card-body info-text">
+                        <p>As senhas seguras são essenciais para proteger suas informações pessoais e ativos digitais. Usar combinações complexas e únicas para cada conta ajuda a evitar acessos não autorizados. Senhas fortes dificultam o trabalho de atacantes que usam técnicas como força bruta ou engenharia social. Lembre-se de atualizar suas senhas regularmente e nunca compartilhá-las.</p>
+                        <p>Gostaria de aprender sobre Cibersegurança e tecnologia? Acesse nosso Blog de Tecnologia <a href="https://dolutech.com" target="_blank">Dolutech</a> e acompanhe nossos artigos sobre.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fim da nova caixa de texto -->
+    <!-- Início do Histórico de Senhas (Modal) -->
+    <div class="modal fade modal-history" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="historyModalLabel">Histórico de Senhas Geradas</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Mensagem de sucesso ao copiar -->
+            <div id="copySuccessMessageModal" class="alert alert-success" role="alert" style="display: none;">
+              Senha copiada para a área de transferência!
+            </div>
+            <ul id="passwordHistoryListModal" class="list-group">
+                <!-- Senhas geradas serão adicionadas aqui -->
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fim do Histórico de Senhas (Modal) -->
+    <footer class="mt-5">
+        Desenvolvido pelo Especialista em Cibersegurança <a href="https://cataodemoraes.com" target="_blank">Lucas Catão de Moraes</a>
+    </footer>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Array para armazenar histórico de senhas
+    var passwordHistory = [];
+
+    // Função para gerar senha padrão
+    function generatePassword() {
+        var length = parseInt(document.getElementById('length').value);
+        var paranoidMode = document.getElementById('paranoidModeToggle').classList.contains('active');
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var specialCharset = "!@#$%^&*()-_=+<>?";
+        var password = "";
+        var useSpecialChars = document.getElementById('specialCharsToggle').classList.contains('active');
+        
+        if (paranoidMode) {
+            length = 64;
+            document.getElementById('length').value = 64;
+            document.getElementById('lengthValue').textContent = "64";
+            document.getElementById('length').disabled = true;
+        } else {
+            document.getElementById('length').disabled = false;
+            length = parseInt(document.getElementById('length').value);
+        }
+    
+        if (useSpecialChars) {
+            charset += specialCharset;
+        }
+
+        for (var i = 0; i < length; i++) {
+            password += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+        document.getElementById('password').value = password;
+        updateLastPassLink(password);
+        addToPasswordHistory(password);
+    }
+
+    // Função para copiar a senha para a área de transferência sem seleção
+    function copyToClipboard() {
+        var password = document.getElementById('password').value;
+        if (!password) {
+            return;
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+            // Usar a API Clipboard se disponível
+            navigator.clipboard.writeText(password).then(function() {
+                // Cópia bem-sucedida, exibir mensagem
+                showCopySuccessMessage();
+            }, function(err) {
+                console.error('Erro ao copiar: ', err);
+            });
+        } else {
+            // Fallback para navegadores que não suportam a API Clipboard
+            var tempInput = document.createElement('input');
+            tempInput.value = password;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // Para dispositivos móveis
+            try {
+                document.execCommand('copy');
+                showCopySuccessMessage();
+            } catch (err) {
+                console.error('Erro ao copiar: ', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+    }
+
+    // Função para exibir a mensagem de sucesso ao copiar
+    function showCopySuccessMessage() {
+        var message = document.getElementById('copySuccessMessage');
+        message.style.display = 'block';
+        // Ocultar a mensagem após 2 segundos
+        setTimeout(function() {
+            message.style.display = 'none';
+        }, 2000);
+    }
+
+    // Função para atualizar o valor do tamanho da senha
+    function updateLengthValue(value) {
+        document.getElementById('lengthValue').textContent = value;
+    }
+
+    // Função para alternar caracteres especiais
+    function toggleSpecialChars() {
+        var toggleBtn = document.getElementById('specialCharsToggle');
+        toggleBtn.classList.toggle('active');
+    }
+
+    // Função para alternar Modo Paranoico
+    function toggleParanoidMode() {
+        var toggleBtn = document.getElementById('paranoidModeToggle');
+        toggleBtn.classList.toggle('active');
+        if (toggleBtn.classList.contains('active')) {
+            // Modo Paranoico ativado
+            document.getElementById('length').value = 64;
+            document.getElementById('lengthValue').textContent = "64";
+            document.getElementById('length').disabled = true;
+        } else {
+            // Modo Paranoico desativado
+            document.getElementById('length').disabled = false;
+            var currentLength = document.getElementById('length').value;
+            document.getElementById('lengthValue').textContent = currentLength;
+        }
+    }
+
+    // Função para verificar a força da senha
+    function checkPasswordStrength(password) {
+        var strength = 0;
+        // Critérios para a força
+        var regexes = [
+            /[a-z]/, // letras minúsculas
+            /[A-Z]/, // letras maiúsculas
+            /[0-9]/, // números
+            /[^a-zA-Z0-9]/ // caracteres especiais
+        ];
+
+        // Verificar cada critério
+        regexes.forEach(function(regex) {
+            if (regex.test(password)) {
+                strength += 1;
+            }
+        });
+
+        // Adicionar pontos por comprimento
+        if (password.length >= 16) {
+            strength += 2;
+        } else if (password.length >= 12) {
+            strength += 1;
+        }
+
+        // Verificar se a senha é uma sequência ou repetitiva
+        var isSequential = false;
+        for (var i = 0; i < password.length - 2; i++) {
+            var charCode1 = password.charCodeAt(i);
+            var charCode2 = password.charCodeAt(i + 1);
+            var charCode3 = password.charCodeAt(i + 2);
+            if (charCode1 + 1 === charCode2 && charCode2 + 1 === charCode3) {
+                isSequential = true;
+                break;
+            }
+        }
+        if (isSequential) {
+            strength -= 1;
+        }
+
+        // Verificar se a senha é apenas números ou apenas letras
+        if (/^[0-9]+$/.test(password) || /^[a-zA-Z]+$/.test(password)) {
+            strength -= 1;
+        }
+
+        // Garantir que a força não seja negativa
+        if (strength < 0) strength = 0;
+
+        return strength;
+    }
+
+    // Evento para verificar a força da senha
+    document.getElementById('passwordStrengthInput').addEventListener('input', function() {
+        var password = this.value;
+        var strength = checkPasswordStrength(password);
+        var strengthText = "";
+        var strengthColor = "";
+        var strengthPercent = (strength / 6) * 100;
+
+        if (password.length < 8 || strength <= 1) {
+            strengthText = "Fraca";
+            strengthColor = "red";
+        } else if (strength === 2 || strength === 3) {
+            strengthText = "Média";
+            strengthColor = "orange";
+        } else if (strength === 4 || strength === 5) {
+            strengthText = "Segura";
+            strengthColor = "green";
+        } else if (strength >= 6) {
+            strengthText = "Ultra Segura";
+            strengthColor = "darkgreen";
+        }
+
+        document.getElementById('strengthText').textContent = "Força: " + strengthText;
+        var meterFill = document.getElementById('strengthMeterFill');
+        meterFill.style.width = strengthPercent + "%";
+        meterFill.style.backgroundColor = strengthColor;
+    });
+
+    // Função para alternar seções avançadas
+    function toggleAdvancedSections() {
+        var advancedSections = document.getElementById('advancedSections');
+        var toggleBtn = document.querySelector('.toggle-advanced-btn');
+        if (advancedSections.style.display === 'block') {
+            advancedSections.style.display = 'none';
+            toggleBtn.textContent = 'Mostrar Opções Avançadas';
+        } else {
+            advancedSections.style.display = 'block';
+            toggleBtn.textContent = 'Ocultar Opções Avançadas';
+        }
+    }
+
+    // Função para gerar senha com regras específicas
+    function generatePasswordWithRules() {
+        var length = parseInt(document.getElementById('length').value);
+        var paranoidMode = document.getElementById('paranoidModeToggle').classList.contains('active');
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var specialCharset = "!@#$%^&*()-_=+<>?";
+        var password = "";
+        var useSpecialChars = document.getElementById('specialCharsToggle').classList.contains('active');
+        
+        if (paranoidMode) {
+            length = 64;
+        }
+
+        if (useSpecialChars) {
+            charset += specialCharset;
+        }
+
+        var startUppercase = document.getElementById('startUppercase').checked;
+        var numberPosition = parseInt(document.getElementById('numberPosition').value);
+        var symbolPosition = parseInt(document.getElementById('symbolPosition').value);
+
+        // Gerar senha base
+        for (var i = 0; i < length; i++) {
+            password += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+
+        // Aplicar regras
+        if (startUppercase && password.length > 0) {
+            password = password.charAt(0).toUpperCase() + password.slice(1);
+        }
+
+        if (!isNaN(numberPosition) && numberPosition > 0 && numberPosition <= length) {
+            var randomNumber = Math.floor(Math.random() * 10).toString();
+            password = password.substring(0, numberPosition - 1) + randomNumber + password.substring(numberPosition);
+        }
+
+        if (!isNaN(symbolPosition) && symbolPosition > 0 && symbolPosition <= length) {
+            var randomSymbol = specialCharset.charAt(Math.floor(Math.random() * specialCharset.length));
+            password = password.substring(0, symbolPosition - 1) + randomSymbol + password.substring(symbolPosition);
+        }
+
+        document.getElementById('password').value = password;
+        updateLastPassLink(password);
+        addToPasswordHistory(password);
+    }
+
+    // Função para gerar múltiplas senhas
+    function generateMultiplePasswords() {
+        var number = parseInt(document.getElementById('numberOfPasswords').value);
+        if (isNaN(number) || number < 1 || number > 100) {
+            alert("Por favor, insira um número válido entre 1 e 100.");
+            return;
+        }
+
+        var passwords = [];
+        for (var i = 0; i < number; i++) {
+            // Reutiliza a função generateSinglePassword para cada senha
+            var tempPassword = generateSinglePassword();
+            passwords.push(tempPassword);
+            addToPasswordHistory(tempPassword);
+        }
+
+        document.getElementById('multiplePasswords').value = passwords.join('\n');
+        document.getElementById('multiplePasswordsContainer').style.display = 'block';
+    }
+
+    // Função auxiliar para gerar uma única senha (sem alterar o campo principal)
+    function generateSinglePassword() {
+        var length = parseInt(document.getElementById('length').value);
+        var paranoidMode = document.getElementById('paranoidModeToggle').classList.contains('active');
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        var specialCharset = "!@#$%^&*()-_=+<>?";
+        var password = "";
+        var useSpecialChars = document.getElementById('specialCharsToggle').classList.contains('active');
+        
+        if (paranoidMode) {
+            length = 64;
+        }
+
+        if (useSpecialChars) {
+            charset += specialCharset;
+        }
+
+        for (var i = 0; i < length; i++) {
+            password += charset.charAt(Math.floor(Math.random() * charset.length));
+        }
+
+        return password;
+    }
+
+    // Função para exportar senhas para um arquivo .txt
+    function exportPasswords() {
+        var passwords = document.getElementById('multiplePasswords').value;
+        if (!passwords) {
+            alert("Não há senhas para exportar.");
+            return;
+        }
+
+        var blob = new Blob([passwords], { type: 'text/plain' });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'senhas.txt';
+        link.click();
+    }
+
+    // Função para atualizar o link do LastPass com a senha gerada
+    function updateLastPassLink(password) {
+        var encodedPassword = encodeURIComponent(password);
+        var lastPassURL = `https://lastpass.com/?additem=${encodedPassword}`;
+        document.getElementById('lastpassShareBtn').href = lastPassURL;
+    }
+
+    // Nova Função: Gerar QR Code da Senha
+    function generateQRCode() {
+        var password = document.getElementById('password').value;
+        if (!password) {
+            alert("Por favor, gere uma senha primeiro.");
+            return;
+        }
+
+        var qrcodeContainer = document.getElementById('qrcodeContainer');
+        var qrcodeDiv = document.getElementById('qrcode');
+
+        // Limpar QR Code anterior, se existir
+        qrcodeDiv.innerHTML = "";
+
+        // Gerar novo QR Code
+        var qrcode = new QRCode(qrcodeDiv, {
+            text: password,
+            width: 128,
+            height: 128
+        });
+
+        // Exibir o container do QR Code e o botão de download
+        qrcodeContainer.style.display = 'block';
+    }
+
+    // Função para baixar o QR Code como imagem
+    function downloadQRCode() {
+        var qrcodeDiv = document.getElementById('qrcode');
+        var img = qrcodeDiv.getElementsByTagName('img')[0];
+        var canvas = qrcodeDiv.getElementsByTagName('canvas')[0];
+        var imageUrl;
+
+        if (img) {
+            // Se o QRCode foi gerado como imagem
+            imageUrl = img.src;
+        } else if (canvas) {
+            // Se o QRCode foi gerado como canvas
+            imageUrl = canvas.toDataURL("image/png");
+        } else {
+            alert("QR Code não encontrado.");
+            return;
+        }
+
+        var link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = 'qrcode_senha.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // Adicionar evento ao botão de download do QR Code
+    document.getElementById('downloadQRCodeBtn').addEventListener('click', downloadQRCode);
+
+    // Função para alternar o Modo Escuro
+    function toggleDarkMode() {
+        var body = document.body;
+        var toggleBtn = document.getElementById('darkModeToggle');
+        body.classList.toggle('dark-mode');
+        toggleBtn.classList.toggle('active');
+
+        // Salvar preferência no localStorage
+        if (body.classList.contains('dark-mode')) {
+            localStorage.setItem('darkMode', 'enabled');
+        } else {
+            localStorage.setItem('darkMode', 'disabled');
+        }
+    }
+
+    // Função para carregar a preferência do Modo Escuro
+    function loadDarkModePreference() {
+        var darkMode = localStorage.getItem('darkMode');
+        if (darkMode === 'enabled') {
+            document.body.classList.add('dark-mode');
+            document.getElementById('darkModeToggle').classList.add('active');
+        }
+    }
+
+    // Adicionar evento ao botão de alternância do Modo Escuro
+    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+
+    // Carregar a preferência do Modo Escuro ao carregar a página
+    document.addEventListener('DOMContentLoaded', loadDarkModePreference);
+
+    // Gerenciar o Banner de Cookies
+    document.addEventListener('DOMContentLoaded', function() {
+        var cookieConsentContainer = document.getElementById('cookieConsentContainer');
+        var acceptBtn = document.getElementById('acceptCookieConsent');
+        var declineBtn = document.getElementById('declineCookieConsent');
+
+        function hideCookieBanner() {
+            cookieConsentContainer.style.display = 'none';
+        }
+
+        function showCookieBanner() {
+            cookieConsentContainer.style.display = 'block';
+        }
+
+        function consentExpired() {
+            var consentTime = localStorage.getItem('cookieConsentTime');
+            if (!consentTime) return true; // Consentimento nunca dado
+            var consentDate = new Date(parseInt(consentTime));
+            var now = new Date();
+            var days = Math.floor((now - consentDate) / (1000 * 60 * 60 * 24));
+            return days > 7; // Retorna true se passaram mais de 7 dias
+        }
+
+        if (localStorage.getItem('cookieConsent') && !consentExpired()) {
+            hideCookieBanner();
+        } else {
+            showCookieBanner();
+        }
+
+        acceptBtn.addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', true);
+            localStorage.setItem('cookieConsentTime', Date.now().toString()); // Armazena a data atual
+            hideCookieBanner();
+        });
+
+        declineBtn.addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', true); // Altere conforme a necessidade
+            localStorage.setItem('cookieConsentTime', Date.now().toString()); // Armazena a data atual mesmo ao recusar, ajuste conforme a lógica desejada
+            hideCookieBanner();
+        });
+    });
+
+    // Função para adicionar senha ao histórico (Modal)
+    function addToPasswordHistory(password) {
+        // Adicionar ao array de histórico
+        passwordHistory.push(password);
+
+        // Atualizar a lista no Modal
+        var historyListModal = document.getElementById('passwordHistoryListModal');
+        var listItemModal = document.createElement('li');
+        listItemModal.classList.add('list-group-item');
+        listItemModal.textContent = password;
+        listItemModal.title = 'Clique para copiar';
+        historyListModal.prepend(listItemModal);
+    }
+
+    // Evento para copiar senhas do histórico
+    document.getElementById('passwordHistoryListModal').addEventListener('click', function(e) {
+        if (e.target && e.target.matches('li.list-group-item')) {
+            var password = e.target.textContent;
+            copyTextToClipboard(password);
+            showCopySuccessMessageModal();
+        }
+    });
+
+    // Função para copiar texto para a área de transferência
+    function copyTextToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Usar a API Clipboard se disponível
+            navigator.clipboard.writeText(text).then(function() {
+                // Cópia bem-sucedida
+            }, function(err) {
+                console.error('Erro ao copiar: ', err);
+            });
+        } else {
+            // Fallback para navegadores que não suportam a API Clipboard
+            var tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // Para dispositivos móveis
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Erro ao copiar: ', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+    }
+
+    // Função para exibir a mensagem de sucesso ao copiar no Modal
+    function showCopySuccessMessageModal() {
+        var message = document.getElementById('copySuccessMessageModal');
+        message.style.display = 'block';
+        // Ocultar a mensagem após 2 segundos
+        setTimeout(function() {
+            message.style.display = 'none';
+        }, 2000);
+    }
+</script>
+</body>
+</html>
